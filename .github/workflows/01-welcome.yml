@@ -1,5 +1,5 @@
 name: Welcome Team Member
-run-name: 새 팀원 환영 - 실행자: ${{ github.actor }}
+run-name: "새 팀원 환영 - 실행자: ${{ github.actor }}"
 on:
   workflow_dispatch
 
@@ -7,12 +7,16 @@ jobs:
   welcom:
     runs-on: ubuntu-latest
     steps: 
-      - name: 팀원환영
+      - name: 환영 인사 시작
+        run: echo "=== 환영합니다. ==="
+        
+      - name: 프로젝트 정보 안내
         run: |
-          echo "=== 환영합니다. ==="
           echo "오늘은 당신의 첫 출근일입니다"
           echo "프로젝트 : GitHub Actions 학습"
-          echo "팀: DevOps
+          echo "팀: DevOps"
           echo "Runner OS: $RUNNER_OS"
-          echo "=== 행운을 빕니다! ==="
-    
+
+      - name: 환영 인사 마무리
+        run: echo "=== 행운을 빕니다! ==="
+        
