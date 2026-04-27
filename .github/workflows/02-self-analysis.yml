@@ -1,0 +1,31 @@
+name: Repository Self-Analysis
+on:
+  workflow_dispatch
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 체크아웃 전 워크스페이스 확인
+        run: |
+          pwd
+          ls -al
+
+
+      - name: 리포지토리 체크아웃 (기본 경로)
+        uses: actions/checkout@v4
+
+      - name: 체크아웃 후 디렉토리 확인
+        run: |
+          pwd
+          ls -al
+
+      - name: 워크플로우 디렉토리 확인
+        run: |
+          echo "=== .github/workflows 내부 ==="
+          ls -al .github/workflows
+
+      - name:  본 워크플로우 파일 내용 출력
+        run: |
+          echo "=== 02-self-analysis.yml 내용 ==="
+          cat .github/workflows/02-self-analysis.yml
