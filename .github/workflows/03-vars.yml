@@ -1,0 +1,11 @@
+name: 03. vars 활용
+on:
+  workflow_dispatch
+
+jobs:
+  use-vars:
+    runs-on: ubuntu-latest
+    steps:
+      - name: vars 출력
+        run: |
+          echo "App Name: ${{ vars.APP_NAME }}"
