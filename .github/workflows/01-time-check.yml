@@ -1,0 +1,23 @@
+name: Time Check
+run-name: "시간 확인 - 실행자: ${{ github.actor }}"
+on:
+  workflow_dispatch
+
+jobs:
+  show-time:
+    runs-on: ubuntu-latest
+    steps: 
+      - name: 현재 UTC 시간
+        run: date -u
+        
+      - name: 현재 KST 시간
+        run: TZ='Asia/Seoul' date
+
+      - name: 시간 정보 종합
+        run: |
+          echo "=== 시간 정보 ==="
+          echo "UTC: $(date -u)"
+          echo "KST: $(TZ='Asia/Seoul' date)"
+          echo "Unix Timestamp: $(date +%s)"
+          echo "요일: $(date +%A)"
+          echo "=== 끝 ==="
