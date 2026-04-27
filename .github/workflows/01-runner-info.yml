@@ -1,0 +1,28 @@
+name: Runner Information
+on:
+  workflow_dispatch
+
+jobs:
+  explore:
+    runs-on: ubuntu-latest
+    steps: 
+      - name: OS 정보
+        run: |
+          date -u
+          cat /etc/os-release
+        
+      - name: 사전 설치 도구 버전
+        run: |
+          git --version
+          docker --version
+          node --version
+          python3 --version
+
+      - name: 시스템 리소스
+        run: |
+          echo "=== CPU ==="
+          nproc
+          echo "=== 메모리 ==="
+          free -h
+          echo "=== 디스크 ==="
+          df -h /
