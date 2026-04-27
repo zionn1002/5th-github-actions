@@ -1,0 +1,26 @@
+name: 02. env 우선순위
+on:
+  workflow_dispatch
+
+env:
+  LEVEL: "workflow"   # 워크플로우 레벨
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    env:
+      LEVEL: "job"    # Job 레벨 (workflow 덮어씀)
+    steps:
+      - name: Job 레벨 확인
+        run: echo "현재 LEVEL = $LEVEL"
+        # 출력: 현재 LEVEL = job
+
+      - name: Step 레벨 적용
+        env:
+          LEVEL: "step"   # Step 레벨 (job 덮어씀)
+        run: echo "현재 LEVEL = $LEVEL"
+        # 출력: 현재 LEVEL = step
+
+      - name: 다시 Job 레벨 복귀
+        run: echo "현재 LEVEL = $LEVEL"
+        # 출력: 현재 LEVEL = job
