@@ -1,0 +1,18 @@
+name: 03. steps context 활용
+on:
+  workflow_dispatch
+
+jobs:
+  pass-data:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 값 생성
+        id: generate
+        run: |
+          echo "version=1.0.0" >> $GITHUB_OUTPUT
+          echo "build_time=$(date '+%Y-%m-%d %H:%M:%S')" >> $GITHUB_OUTPUT
+
+      - name: 이전 Step 값 사용
+        run: |
+          echo "버전: ${{ steps.generate.outputs.version }}"
+          echo "빌드 시간: ${{ steps.generate.outputs.build_time }}"
