@@ -18,3 +18,23 @@ jobs:
         run: |
           pwd
           ls -al
+
+      - name: 다른 경로로 체크아웃
+        uses: actions/checkout@v4
+        with:
+          path: my-repo
+
+      - name: 다른 경로 확인
+        run: |
+          ls -al
+          echo "=== my-repo 내부 ==="
+          ls -al my-repo
+
+      - name: 외부 공개 리포지토리 체크아웃
+        uses: actions/checkout@v4
+        with:
+          repository: actions/checkout
+          path: external-repo
+
+      - name: 최종 디렉토리 확인
+        run: ls -al
