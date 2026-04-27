@@ -1,0 +1,32 @@
+name: 03. github context 확인
+on:
+  workflow_dispatch
+
+jobs:
+  show-github:
+    runs-on: ubuntu-latest
+    steps:
+      - name: github context 주요 값
+        run: |
+          echo "actor: ${{ github.actor }}"
+          echo "repository: ${{ github.repository }}"
+          echo "ref: ${{ github.ref }}"
+          echo "ref_name: ${{ github.ref_name }}"
+          echo "sha: ${{ github.sha }}"
+          echo "event_name: ${{ github.event_name }}"
+          echo "run_id: ${{ github.run_id }}"
+          echo "run_number: ${{ github.run_number }}"
+
+      - name: runner context
+        run: |
+          echo "runner.os: ${{ runner.os }}"
+          echo "runner.arch: ${{ runner.arch }}"
+          echo "runner.temp: ${{ runner.temp }}"
+
+      - name: github context 전체 JSON
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+
+
+        
