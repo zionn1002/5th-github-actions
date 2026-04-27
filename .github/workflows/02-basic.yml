@@ -1,0 +1,30 @@
+name: 02. 기본 문법 실습
+on:
+  workflow_dispatch
+  
+env:
+  APP_NAME: "MyApp"
+  VERSION: "1.0.0"
+
+jobs:
+  basic:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 첫 번째 명령
+        run: echo "Step 1 실행"
+
+      - name: 두 번째 명령
+        run: echo "Step 2 실행"
+
+      - name: 멀티라인 명령어
+        run: |
+          echo "줄 1"
+          echo "줄 2"
+          echo "줄 3"
+          ls -al
+          pwd
+          
+      - name: 환경변수 출력
+        run: |
+          echo "App: $APP_NAME"
+          echo "Version: $VERSION"
