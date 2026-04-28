@@ -1,0 +1,25 @@
+name: 04. Job outputs 전달
+on:
+  workflow_dispatch
+
+jobs:
+  produce:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.set-ver.outputs.value }}
+      build_id: ${{ steps.set-id.outputs.value }}
+    steps:
+      - id: set-ver
+        run: echo "value=2.0.0" >> $GITHUB_OUTPUT
+
+      - id: set-id
+        run: echo "value=build-${{ github.run_number }}" >> $GITHUB_OUTPUT
+
+  consume:
+    needs: produce
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "Version: ${{ needs.produce.outputs.version }}"
+          echo "Build ID: ${{ needs.produce.outputs.build_id }}"
+          echo "Produce 결과: ${{ needs.produce.result }}"
