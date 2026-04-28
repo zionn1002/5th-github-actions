@@ -1,0 +1,20 @@
+name: 04. 병렬 실행 확인
+on:
+  workflow_dispatch
+
+jobs:
+  job-a:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "Job A 시작"
+          sleep 5
+          echo "Job A 완료"
+
+  job-b:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "Job B 시작"
+          sleep 5
+          echo "Job B 완료"
