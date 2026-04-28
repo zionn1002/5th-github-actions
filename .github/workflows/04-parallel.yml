@@ -13,6 +13,7 @@ jobs:
 
   job-b:
     runs-on: ubuntu-latest
+    needs: job-a            # 추가
     steps:
       - run: |
           echo "Job B 시작"
