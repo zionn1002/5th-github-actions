@@ -18,3 +18,17 @@ jobs:
         with:
           name: hello-artifact
           path: output/hello.txt
+
+      - name: 여러 파일 생성
+        run: |
+          mkdir reports
+          echo "리포트 1" > reports/report1.txt
+          echo "리포트 2" > reports/report2.txt
+          echo "리포트 3" > reports/report3.txt
+
+      - name: 디렉토리 전체 업로드
+        uses: actions/upload-artifact@v4
+        with:
+          name: reports-${{ github.run_number }}
+          path: reports/
+          retention-days: 3
