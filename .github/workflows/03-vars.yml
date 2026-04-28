@@ -12,7 +12,7 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
-    environment: dev
+    environment: prod
     steps:
       - name: vars 출력
         run: |
