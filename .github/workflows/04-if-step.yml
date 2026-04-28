@@ -1,0 +1,33 @@
+name: 04. if 조건부 Step
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: '실행 모드'
+        required: true
+        default: 'normal'
+        type: choice
+        options:
+          - normal
+          - debug
+
+jobs:
+  conditional:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 항상 실행
+        run: echo "이 Step은 항상 실행됨"
+
+      - name: normal 모드일 때만 실행
+        if: ${{ inputs.mode == 'normal' }}
+        run: echo "normal 모드 처리"
+
+      - name: debug 모드일 때만 실행
+        if: ${{ inputs.mode == 'debug' }}
+        run: |
+          echo "디버그 정보 출력"
+          echo "github.actor: ${{ github.actor }}"
+          echo "github.sha: ${{ github.sha }}"
+
+      - name: 항상 마지막 실행
+        run: echo "워크플로우 종료"
