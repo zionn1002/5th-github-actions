@@ -1,0 +1,20 @@
+name: 05. Artifact 업로드
+on:
+  workflow_dispatch
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 파일 생성
+        run: |
+          mkdir output
+          echo "Hello, GitHub Actions!" > output/hello.txt
+          echo "Run number: ${{ github.run_number }}" >> output/hello.txt
+          cat output/hello.txt
+
+      - name: Artifact 업로드
+        uses: actions/upload-artifact@v4
+        with:
+          name: hello-artifact
+          path: output/hello.txt
