@@ -1,0 +1,32 @@
+name: 03. inputs 활용
+on:
+  workflow_dispatch:
+    inputs:
+      username:
+        description: '사용자 이름'
+        required: true
+        default: 'guest'
+        type: string
+      env:
+        description: '배포 환경'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+          - staging
+          - production
+      send_notification:
+        description: '알림 발송 여부'
+        required: false
+        default: true
+        type: boolean
+
+jobs:
+  show-inputs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 입력값 확인
+        run: |
+          echo "사용자: ${{ inputs.username }}"
+          echo "환경: ${{ inputs.env }}"
+          echo "알림: ${{ inputs.send_notification }}"
