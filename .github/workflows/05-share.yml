@@ -1,0 +1,36 @@
+name: 05. Artifact Job 간 공유
+on:
+  workflow_dispatch
+
+jobs:
+  produce:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 파일 생성
+        run: |
+          mkdir build
+          echo "빌드된 파일 - ${{ github.run_number }}" > build/app.txt
+          echo "생성 시간: $(date)" >> build/app.txt
+
+      - name: 업로드
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-${{ github.run_number }}
+          path: build/
+
+  consume:
+    needs: produce
+    runs-on: ubuntu-latest
+    steps:
+      - name: 다운로드
+        uses: actions/download-artifact@v4
+        with:
+          name: build-${{ github.run_number }}
+          path: ./downloaded
+
+      - name: 다운로드된 파일 확인
+        run: |
+          echo "=== 다운로드된 파일 목록 ==="
+          ls -al ./downloaded
+          echo "=== 파일 내용 ==="
+          cat ./downloaded/app.txt
