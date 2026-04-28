@@ -1,0 +1,27 @@
+name: 05. 파일 없을 때 동작
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'if-no-files-found 옵션'
+        required: true
+        default: 'warn'
+        type: choice
+        options:
+          - warn
+          - error
+          - ignore
+
+jobs:
+  test-no-file:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 빈 디렉토리 생성
+        run: mkdir empty-dir
+
+      - name: 존재하지 않는 파일 업로드 시도
+        uses: actions/upload-artifact@v4
+        with:
+          name: empty-${{ github.run_number }}
+          path: empty-dir/missing.txt
+          if-no-files-found: ${{ inputs.mode }}
