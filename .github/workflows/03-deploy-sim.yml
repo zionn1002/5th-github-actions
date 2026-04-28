@@ -1,0 +1,50 @@
+name: Deploy Simulation
+on:
+  workflow_dispatch:
+    inputs:
+      app_version:
+        description: '앱 버전'
+        required: true
+        default: '1.0.0'
+        type: string
+      target_env:
+        description: '배포 환경'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+          - staging
+          - production
+      dry_run:
+        description: 'Dry Run 모드'
+        required: true
+        default: true
+        type: boolean
+
+jobs:
+  simulate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 입력값 확인
+        run: |
+          echo "=== 입력값 ==="
+          echo "버전: ${{ inputs.app_version }}"
+          echo "환경: ${{ inputs.target_env }}"
+          echo "Dry Run: ${{ inputs.dry_run }}"
+
+      - name: 배포 정보 조합
+        id: info
+        run: |
+          DEPLOY_TARGET="${{ inputs.target_env }}-${{ inputs.app_version }}"
+          COMMAND="deploy --env ${{ inputs.target_env }} --version ${{ inputs.app_version }} --user ${{ vars.DEPLOY_USER }}"
+          echo "deploy_target=$DEPLOY_TARGET" >> $GITHUB_OUTPUT
+          echo "command=$COMMAND" >> $GITHUB_OUTPUT
+
+      - name: 배포 명령어 출력 (시뮬레이션)
+        run: |
+          echo "=== 배포 시뮬레이션 ==="
+          echo "Target: ${{ steps.info.outputs.deploy_target }}"
+          echo "User: ${{ vars.DEPLOY_USER }}"
+          echo "Token: ${{ secrets.DEPLOY_TOKEN }}"
+          echo "Command: ${{ steps.info.outputs.command }}"
+          echo "Dry Run: ${{ inputs.dry_run }}"
