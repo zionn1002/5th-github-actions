@@ -1,0 +1,51 @@
+name: Context Debug Helper
+on:
+  workflow_dispatch:
+    inputs:
+      context_type:
+        description: '출력할 Context 종류'
+        required: true
+        default: 'summary'
+        type: choice
+        options:
+          - summary
+          - github_full
+          - runner_full
+
+jobs:
+  debug:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 요약 출력 (항상 실행)
+        run: |
+          echo "=== Context 요약 ==="
+          echo "Repository: ${{ github.repository }}"
+          echo "Actor: ${{ github.actor }}"
+          echo "Branch/Tag: ${{ github.ref_name }}"
+          echo "Event: ${{ github.event_name }}"
+          echo "Run #: ${{ github.run_number }}"
+          echo "OS: ${{ runner.os }}"
+          echo "Selected Type: ${{ inputs.context_type }}"
+
+      - name: github context 전체 (JSON)
+        id: dump-github
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: |
+          echo "=== github context (JSON) ==="
+          echo "$GITHUB_CONTEXT"
+
+      - name: runner context 전체 (JSON)
+        id: dump-runner
+        env:
+          RUNNER_CONTEXT: ${{ toJson(runner) }}
+        run: |
+          echo "=== runner context (JSON) ==="
+          echo "$RUNNER_CONTEXT"
+
+      - name: 안내 메시지
+        run: |
+          echo "=== 사용 안내 ==="
+          echo "위 Step에서 어떤 데이터가 자동 주입되는지 확인하세요"
+          echo "inputs.context_type 값: ${{ inputs.context_type }}"
+          echo "다음 단원에서 if 조건으로 선택적 실행을 학습합니다"
