@@ -9,3 +9,11 @@ jobs:
       - name: vars 출력
         run: |
           echo "App Name: ${{ vars.APP_NAME }}"
+
+  deploy:
+    runs-on: ubuntu-latest
+    environment: dev
+    steps:
+      - name: vars 출력
+        run: |
+          echo "URL: ${{ vars.API_URL }}"
