@@ -20,8 +20,16 @@ jobs:
       matrix:
         fruits: [Apple, Banana]
         sizes: [Small, Large]
+        include:
+          - fruits: Apple
+            sizes: Small
+            note: "추천 조합"
+        exclude:
+          - fruits: Banana
+            sizes: Small
     steps:
-      - name: 조합 출력
+      - name: 조합 확인
         run: |
           echo "과일: ${{ matrix.fruits }}"
           echo "크기: ${{ matrix.sizes }}"
+          echo "노트: ${{ matrix.note }}"
