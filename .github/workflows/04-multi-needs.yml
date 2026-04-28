@@ -1,0 +1,27 @@
+name: 04. 다중 needs
+on:
+  workflow_dispatch
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "린트 통과"
+
+  test:
+    runs-on: ubuntu-latest
+    needs: lint
+    steps:
+      - run: echo "테스트 통과"
+
+  build:
+    runs-on: ubuntu-latest
+    needs: lint
+    steps:
+      - run: echo "빌드 완료"
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: [test, build]    # 두 Job 모두 완료 후 실행
+    steps:
+      - run: echo "배포 완료"
