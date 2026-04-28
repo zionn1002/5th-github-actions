@@ -1,0 +1,24 @@
+name: 05. cache 기본 사용
+on:
+  workflow_dispatch
+
+jobs:
+  with-cache:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 가짜 캐시 데이터 생성
+        run: |
+          mkdir -p ~/cached-data
+          echo "캐시된 데이터" > ~/cached-data/data.txt
+
+      - name: 캐시 시도
+        id: cache
+        uses: actions/cache@v4
+        with:
+          path: ~/cached-data
+          key: ${{ runner.os }}-mydata-v1
+
+      - name: 캐시 결과 확인
+        run: |
+          echo "캐시 히트 여부: ${{ steps.cache.outputs.cache-hit }}"
+          ls -al ~/cached-data
