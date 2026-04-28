@@ -18,21 +18,21 @@ jobs:
     outputs:
       target_input: ${{ inputs.target }}
     steps:
-      - run: echo "선택된 타겟: ${{ inputs.target }}"
+      - run: 'echo "선택된 타겟: ${{ inputs.target }}"'
 
   deploy-staging:
     needs: prepare
     runs-on: ubuntu-latest
     if: ${{ inputs.target == 'staging' || inputs.target == 'both' }}
     steps:
-      - run: echo "스테이징 배포: ${{ needs.prepare.outputs.target_input }}"
-
+      - run: 'echo "스테이징 배포: ${{ needs.prepare.outputs.target_input }}"'
+      
   deploy-production:
     needs: prepare
     runs-on: ubuntu-latest
     if: ${{ inputs.target == 'production' || inputs.target == 'both' }}
     steps:
-      - run: echo "프로덕션 배포: ${{ needs.prepare.outputs.target_input }}"
+      - run: 'echo "프로덕션 배포: ${{ needs.prepare.outputs.target_input }}"'
 
   production-verify:
     needs: deploy-production
