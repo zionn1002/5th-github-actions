@@ -30,3 +30,14 @@ jobs:
           echo "사용자: ${{ inputs.username }}"
           echo "환경: ${{ inputs.env }}"
           echo "알림: ${{ inputs.send_notification }}"
+
+      - name: 사용자명 대문자 변환
+        id: upper
+        run: |
+          UPPER_NAME=$(echo "${{ inputs.username }}" | tr 'a-z' 'A-Z')
+          echo "result=$UPPER_NAME" >> $GITHUB_OUTPUT
+
+      - name: 변환 결과 출력
+        run: |
+          echo "원본: ${{ inputs.username }}"
+          echo "변환: ${{ steps.upper.outputs.result }}"
