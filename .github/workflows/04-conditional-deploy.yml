@@ -1,0 +1,54 @@
+name: Conditional Deploy
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: '배포 대상'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+          - staging
+          - production
+          - both
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    outputs:
+      target_input: ${{ inputs.target }}
+    steps:
+      - run: echo "선택된 타겟: ${{ inputs.target }}"
+
+  deploy-staging:
+    needs: prepare
+    runs-on: ubuntu-latest
+    if: ${{ inputs.target == 'staging' || inputs.target == 'both' }}
+    steps:
+      - run: echo "스테이징 배포: ${{ needs.prepare.outputs.target_input }}"
+
+  deploy-production:
+    needs: prepare
+    runs-on: ubuntu-latest
+    if: ${{ inputs.target == 'production' || inputs.target == 'both' }}
+    steps:
+      - run: echo "프로덕션 배포: ${{ needs.prepare.outputs.target_input }}"
+
+  production-verify:
+    needs: deploy-production
+    runs-on: ubuntu-latest
+    if: ${{ inputs.target == 'both' }}
+    steps:
+      - run: echo "프로덕션 추가 검증 실행"
+
+  summary:
+    needs: [deploy-staging, deploy-production, production-verify]
+    runs-on: ubuntu-latest
+    if: ${{ always() }}
+    steps:
+      - run: |
+          echo "=== 실행 결과 요약 ==="
+          echo "Target: ${{ inputs.target }}"
+          echo "Staging: ${{ needs.deploy-staging.result }}"
+          echo "Production: ${{ needs.deploy-production.result }}"
+          echo "Verify: ${{ needs.production-verify.result }}"
