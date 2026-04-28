@@ -31,3 +31,10 @@ jobs:
 
       - name: 항상 마지막 실행
         run: echo "워크플로우 종료"
+
+      - name: 강제 실패
+        run: exit 1
+
+      - name: 실패해도 항상 실행
+        if: ${{ always() }}
+        run: echo "이 Step은 위 Step이 실패해도 실행됨"
