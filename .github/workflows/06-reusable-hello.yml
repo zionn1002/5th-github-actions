@@ -1,0 +1,10 @@
+name: Reusable Hello
+on:
+  workflow_call
+
+jobs:
+  greet:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Hello from Reusable Workflow!"
+      - run: echo "이 워크플로우는 다른 워크플로우에서 호출됩니다"
